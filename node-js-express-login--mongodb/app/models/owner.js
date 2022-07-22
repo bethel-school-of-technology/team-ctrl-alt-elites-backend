@@ -6,7 +6,6 @@ var Schema = mongoose.Schema;
 var Owner = new Schema({
     profile: String,
     img: String,
-    id: Number,
     type: String,
     time: String, 
     location: String,
