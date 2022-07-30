@@ -5,6 +5,14 @@ const User = mongoose.model(
     username: String,
     email: String,
     password: String,
+    profile: String,
+    image: String,
+    type: String,
+    time: String, 
+    location: String,
+    price: Number,
+    summary: String,
+    description: String,
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,

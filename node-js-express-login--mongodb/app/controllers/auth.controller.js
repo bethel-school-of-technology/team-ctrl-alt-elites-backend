@@ -9,6 +9,14 @@ exports.signup = (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
+    profile: req.body.profile,
+    image: req.body.image,
+    type: req.body.type,
+    time: req.body.time, 
+    location: req.body.location,
+    price: req.body.price,
+    summary: req.body.summary,
+    description: req.body.description,
   });
   user.save((err, user) => {
     if (err) {
@@ -85,6 +93,14 @@ exports.signin = (req, res) => {
         id: user._id,
         username: user.username,
         email: user.email,
+        profile: user.profile,
+        image: user.image,
+        type: user.type,
+        time: user.time, 
+        location: user.location,
+        price: user.price,
+        summary: user.summary,
+        description: user.description,
         roles: authorities,
         token: token,
       });
