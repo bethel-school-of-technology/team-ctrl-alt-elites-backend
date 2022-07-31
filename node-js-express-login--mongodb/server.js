@@ -5,10 +5,6 @@ const app = express();
 var bodyParser = require('body-parser');
 
 
-
-/* var userRouter = require('./app/routes/user.routes'); */
-
-
 var corsOptions = {
   origin: "http://localhost:8081"
 
@@ -32,9 +28,15 @@ app.use(
 );
 var ownersRouter = require('./app/routes/owners');
 app.use('/owners', ownersRouter);
+var usersRouter = require('./app/routes/users');
+app.use('/users', usersRouter);
+
+
+var userRouter = require('./app/routes/user.routes');
+app.use('/user', userRouter);
 
 // simple route
-app.get("/", (req, res) => {
+app.get("/h", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
 
