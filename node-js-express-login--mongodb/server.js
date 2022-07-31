@@ -7,13 +7,25 @@ var bodyParser = require('body-parser');
 
 var corsOptions = {
   origin: "http://localhost:8081"
-
-
 };
 var bodyParser = require('body-parser')
-
 app.use(cors());
 
+app.use(async (req, res, next) => {
+  //get token from request
+  const header = req.headers.authorization;
+
+  if (!header) {
+    return next();
+  }
+
+  const token = header.split(' ')[1];
+
+  //validate the token / get the user
+  const user = await auth.verifyUser(token);
+  req.user = user;
+  next();
+})
 
 // parse requests of content-type - application/json
 app.use(express.json());
