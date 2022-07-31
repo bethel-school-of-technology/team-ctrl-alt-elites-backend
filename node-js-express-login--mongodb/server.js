@@ -11,7 +11,7 @@ var corsOptions = {
 var bodyParser = require('body-parser')
 app.use(cors());
 
-app.use(async (req, res, next) => {
+/*app.use(async (req, res, next) => {
   //get token from request
   const header = req.headers.authorization;
 
@@ -25,7 +25,7 @@ app.use(async (req, res, next) => {
   const user = await auth.verifyUser(token);
   req.user = user;
   next();
-})
+})*/
 
 // parse requests of content-type - application/json
 app.use(express.json());
