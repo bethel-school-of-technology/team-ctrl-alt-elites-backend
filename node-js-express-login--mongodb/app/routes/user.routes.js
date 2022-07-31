@@ -3,6 +3,7 @@ const controller = require("../controllers/user.controller");
 var express = require('express');
 var router = express.Router();
 
+
  module.exports = function(app) {
   app.use(function(req, res, next) {
     res.header(
@@ -20,6 +21,8 @@ var router = express.Router();
     controller.ownerBoard
   );
   
+  
+
 // GET ALL
 router.get('/', async function(req, res, next) {
   try{

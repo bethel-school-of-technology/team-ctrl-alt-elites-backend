@@ -5,19 +5,27 @@ const app = express();
 var bodyParser = require('body-parser');
 
 
-
-/* var userRouter = require('./app/routes/user.routes'); */
-
-
 var corsOptions = {
   origin: "http://localhost:8081"
-
-
 };
 var bodyParser = require('body-parser')
-
 app.use(cors());
 
+app.use(async (req, res, next) => {
+  //get token from request
+  const header = req.headers.authorization;
+
+  if (!header) {
+    return next();
+  }
+
+  const token = header.split(' ')[1];
+
+  //validate the token / get the user
+  const user = await auth.verifyUser(token);
+  req.user = user;
+  next();
+})
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -32,9 +40,15 @@ app.use(
 );
 var ownersRouter = require('./app/routes/owners');
 app.use('/owners', ownersRouter);
+var usersRouter = require('./app/routes/users');
+app.use('/users', usersRouter);
+
+
+var userRouter = require('./app/routes/user.routes');
+app.use('/user', userRouter);
 
 // simple route
-app.get("/", (req, res) => {
+app.get("/h", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
 
