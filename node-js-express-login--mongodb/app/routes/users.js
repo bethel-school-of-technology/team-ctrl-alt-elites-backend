@@ -1,11 +1,12 @@
-require('dotenv').config();
-const { authJwt } = require("../middlewares");
-const controller = require("../controllers/user.controller");
+require('dotenv').config()
+const jwt = require("jsonwebtoken");
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user.model')
 const multer = require('multer');
 const { Storage } = require('@google-cloud/storage');
+const auth = require('../middlewares/auth');
+const authJwt = require('../middlewares/authJwt')
 
 
 const uploader = multer({
@@ -26,6 +27,8 @@ const storage = new Storage({
 //connect to firebase bucket
 const bucket = storage.bucket(process.env.FIREBASE_BUCKET);
 
+
+
 //unprotected route
 // GET ALL from new User Model
 router.get('/', async function (req, res, next) {
@@ -41,6 +44,7 @@ router.get('/', async function (req, res, next) {
     });
   }
 });
+
 
 // GET ONE
 router.get('/:id', async function (req, res, next) {
@@ -81,6 +85,23 @@ router.post('/add', async function (req, res) {
 
 // UPDATE
 router.put('/update/:id', async function (req, res) {
+  //get token from request
+  
+  const header = req.headers.authorization;
+  console.log('header', header);
+  if (!header) {
+    res.status(403).send();
+    return;
+  }
+
+  const token = header.split(' ')[1];
+
+  //validate token
+  const id = await auth.verifyUser(token);
+  console.log('id', id);
+  
+  
+
   try {
     const users = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,

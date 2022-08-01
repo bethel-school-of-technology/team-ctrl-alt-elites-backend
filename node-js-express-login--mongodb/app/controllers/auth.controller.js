@@ -85,28 +85,9 @@ exports.signin = (req, res) => {
         expiresIn: 86400, // 24 hours
       });
 
-// alternative to web token:
- /*       createJWT: (user) => {
-        const token = jwt.sign({
-          username: user.username,
-          id: user.id
-        },
-        secretKey,
-        {
-          expiresIn: '24h'
-        });
-        return token;
-      },
-      verifyUser: (token) => {
-        try {
-          const decodedPayload = jwt.verify(token, secretKey);
-          return User.findByPk(decodedPayload.id);
-        } catch (err) {
-          return null;
-        }
-      }
 
-*/
+
+
       var authorities = [];
       for (let i = 0; i < user.roles.length; i++) {
         authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
